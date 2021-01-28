@@ -21,9 +21,8 @@ $f3->set('Debug',3);
 
 //Define a default route (home page)
 $f3->route('GET /', function(){
-    echo 'Home page';
-//    $view = new Template();
-//    echo $view->render('views/home.html');
+    $view = new Template();
+    echo $view->render('views/home.html');
 });
 
 //Define an order1 route
