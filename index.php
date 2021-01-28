@@ -12,6 +12,9 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+//Start a session
+session_start();
+
 //Require the auto autoload file
 require_once('vendor/autoload.php');
 
@@ -27,17 +30,48 @@ $f3->route('GET /', function(){
 
 //Define an order1 route
 $f3->route('GET /order', function(){
-    echo "Order 1st route!";
+    $view = new Template();
+    echo $view->render('views/form1.html');
 });
 
 //Define an order2 route
-$f3->route('GET /order2', function(){
-    echo "Order 2nd route!";
+$f3->route('POST /order2', function(){
+
+    //add data from form1 to session array
+    //var_dump($_POST);
+    if(isset($_POST['food'])) {
+        $_SESSION['food'] = $_POST['food'];
+    }
+
+    var_dump($_POST);
+    if(isset($_POST['meal'])) {
+        $_SESSION['meal'] = $_POST['meal'];
+    }
+
+    //Display a view
+    $view = new Template();
+    echo $view->render('views/form2.html');
 });
 
 //Define an summary route
-$f3->route('GET /summary', function(){
-    echo "Summary route!";
+$f3->route('POST /summary', function(){
+
+    echo "POST:<br>";
+    var_dump($_POST);
+
+    echo"<p> SESSION: </p>";
+    var_dump($_SESSION);
+
+    //add data from form2 to session array
+    //var_dump($_POST);
+    if(isset($_POST['conds'])) {
+        $_SESSION['conds'] = implode(", ", $_POST['conds']);
+    }
+
+
+    //display a view
+    $view = new Template();
+    echo $view->render('views/summary.html');
 });
 
 
